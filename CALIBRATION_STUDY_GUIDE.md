@@ -31,12 +31,12 @@ Calibration learns the difference that remains after we enter the measured input
 
 Our model is:
 
-$$
+```math
 \text{real altitude}
 = \text{simulated altitude}
 + \text{systematic correction}
 + \text{remaining variation}.
-$$
+```
 
 For example, if a matching simulation predicts 850 ft and the measured flight
 reaches 820 ft, the observed discrepancy is -30 ft. A correction of -30 ft would
@@ -58,12 +58,12 @@ by adjusting ballast using a calibrated response.
 
 For an approximately vertical ascent in still air, an illustrative force model is:
 
-$$
+```math
 \frac{dh}{dt}=v,
 \qquad
 m(t)\frac{dv}{dt}
 = F_T(t)-m(t)g-\frac12\rho C_D A\,v|v|.
-$$
+```
 
 | Symbol | Meaning | SI unit |
 | --- | --- | --- |
@@ -84,10 +84,10 @@ OpenRocket handles a richer flight model than this teaching equation.
 
 Dividing the force equation by mass shows the competing effects:
 
-$$
+```math
 \frac{dv}{dt}
 =\frac{F_T(t)}{m(t)}-g-\frac{\rho C_D A}{2m(t)}v|v|.
-$$
+```
 
 At the same speed, a heavier rocket gets less acceleration from a given thrust,
 but also less deceleration from a given drag force. Its speed history changes
@@ -104,13 +104,13 @@ in newtons. Our ballast inputs are masses in grams.
 
 Use SI units in a force equation. Useful conversions are:
 
-$$
+```math
 1\text{ g}=0.001\text{ kg},
 \qquad
 1\text{ ft}=0.3048\text{ m},
 \qquad
 1\text{ hPa}=100\text{ Pa}.
-$$
+```
 
 The statistical calibration can use grams and feet consistently because its
 coefficients carry those units.
@@ -135,9 +135,9 @@ and ballast. Reproduce that mass and observed conditions in the simulation.
 
 For a proposed launch with fixed non-ballast mass:
 
-$$
+```math
 m_{\text{launch}}=m_{\text{base}}+b.
-$$
+```
 
 If the measured base mass is 500 g and ballast is 30 g, total launch mass is 530 g.
 Do not add the ballast a second time to a total mass that already includes it.
@@ -156,11 +156,11 @@ The [README data dictionary](README.md#collect-comparable-records) explains the 
 
 The simplest model is:
 
-$$
+```math
 Y_i=S_i+\beta_0+\epsilon_i,
 \qquad
 r_i=\beta_0+\epsilon_i.
-$$
+```
 
 Here $\beta_0$ is an unknown systematic correction and $\epsilon_i$ is remaining
 variation. We assume its conditional average is zero. This assumption means the
@@ -168,23 +168,23 @@ systematic part has been adequately represented over the conditions being modele
 
 The estimated correction is the mean discrepancy:
 
-$$
+```math
 \widehat\beta_0=\overline r=\frac1n\sum_{i=1}^n r_i.
-$$
+```
 
 A hat means an estimate from data; a bar means an average.
 
 For discrepancies of -28, -32, -31, and -29 ft:
 
-$$
+```math
 \widehat\beta_0=\frac{-28-32-31-29}{4}=-30\text{ ft}.
-$$
+```
 
 The corrected prediction for a new simulation of 830 ft is:
 
-$$
+```math
 \widehat Y_{\text{new}}=830-30=800\text{ ft}.
-$$
+```
 
 **Intuition:** shift OpenRocket's altitude-versus-mass curve up or down. Keep its
 shape. This can be useful when a small dataset supports a consistent bias but
@@ -194,9 +194,9 @@ does not yet support an additional mass effect.
 
 The simulation discrepancy may change with mass:
 
-$$
+```math
 Y_i=S_i+\beta_0+\beta_1(m_i-m_{\text{ref}})+\epsilon_i.
-$$
+```
 
 The program chooses $m_{\text{ref}}=\overline m$, the mean training launch mass.
 
@@ -207,15 +207,15 @@ The program chooses $m_{\text{ref}}=\overline m$, the mean training launch mass.
 
 For example:
 
-$$
+```math
 \widehat\delta(m)=-30-0.5(m-520).
-$$
+```
 
 At 520 g, subtract 30 ft from OpenRocket. At 540 g, the additive correction is:
 
-$$
+```math
 -30-0.5(540-520)=-40\text{ ft}.
-$$
+```
 
 The negative slope means the simulation overprediction grows with mass over this
 tested range.
@@ -235,9 +235,9 @@ caused every discrepancy, or identify a particular aerodynamic parameter.
 Define $x_i=m_i-\overline m$. For any proposed coefficients, the unexplained
 residual is:
 
-$$
+```math
 e_i=r_i-(\beta_0+\beta_1x_i).
-$$
+```
 
 Do not confuse two quantities:
 
@@ -246,22 +246,22 @@ Do not confuse two quantities:
 
 Least squares selects coefficients that minimize:
 
-$$
+```math
 Q(\beta_0,\beta_1)
 =\sum_{i=1}^n \left[r_i-\beta_0-\beta_1x_i\right]^2.
-$$
+```
 
 Squaring prevents positive and negative residuals from canceling and gives
 larger misses more influence.
 For centered masses, the solution is:
 
-$$
+```math
 \widehat\beta_0=\overline r,
 \qquad
 \widehat\beta_1=
 \frac{\sum_i(m_i-\overline m)(r_i-\overline r)}
      {\sum_i(m_i-\overline m)^2}.
-$$
+```
 
 The numerator measures whether discrepancies change with mass. The denominator
 measures how much mass variation the experiment contains.
@@ -290,60 +290,60 @@ table alone is not a model-selection or independent validation exercise.
 
 The means are:
 
-$$
+```math
 \overline m=520\text{ g},
 \qquad
 \overline r=-30\text{ ft}.
-$$
+```
 
 The centered masses are $-20,-20,0,0,20,20$ g.
 The centered discrepancies are $12,8,2,-2,-8,-12$ ft.
 
 Calculate:
 
-$$
+```math
 S_{xx}=\sum_i(m_i-\overline m)^2
 =400+400+0+0+400+400=1600\text{ g}^2,
-$$
+```
 
-$$
+```math
 S_{xr}=\sum_i(m_i-\overline m)(r_i-\overline r)
 =-240-160+0+0-160-240=-800\text{ g ft}.
-$$
+```
 
 Therefore:
 
-$$
+```math
 \widehat\beta_1=\frac{-800}{1600}=-0.5\text{ ft/g},
 \qquad
 \widehat\beta_0=-30\text{ ft}.
-$$
+```
 
 Our fitted prediction is:
 
-$$
+```math
 \boxed{\widehat Y(m,\mathbf w)
 =S(m,\mathbf w)-30-0.5(m-520)}.
-$$
+```
 
 Suppose a candidate simulation at 530 g predicts 835 ft. Its correction is:
 
-$$
+```math
 \widehat\delta(530)=-30-0.5(10)=-35\text{ ft}.
-$$
+```
 
 Its corrected mean prediction is:
 
-$$
+```math
 \widehat Y(530)=835-35=800\text{ ft}.
-$$
+```
 
 The fitted corrections at 500, 520, and 540 g are -20, -30, and -40 ft.
 The six residuals after calibration are consequently:
 
-$$
+```math
 e_i=2,-2,2,-2,2,-2\text{ ft}.
-$$
+```
 
 We have removed the systematic mass trend. Small variation remains.
 
@@ -351,9 +351,9 @@ We have removed the systematic mass trend. Small variation remains.
 
 The estimated residual standard deviation is:
 
-$$
+```math
 s=\sqrt{\frac{\sum_i e_i^2}{n-p}},
-$$
+```
 
 where $p$ is the number of fitted coefficients:
 
@@ -366,15 +366,15 @@ accounts for those fitted constraints.
 
 In the hand example:
 
-$$
+```math
 \sum_i e_i^2=6(2^2)=24\text{ ft}^2,
 \qquad
 \nu=6-2=4,
-$$
+```
 
-$$
+```math
 s=\sqrt{24/4}=\sqrt6\approx2.449\text{ ft}.
-$$
+```
 
 This estimates the scale of unexplained flight variation under the model.
 It includes whatever unexplained variation the dataset contains, including
@@ -394,15 +394,15 @@ slightly different coefficients and a different predicted mean.
 
 For the linear correction define the leverage at a proposed mass:
 
-$$
+```math
 \ell(m)=\frac1n+\frac{(m-\overline m)^2}{S_{xx}}.
-$$
+```
 
 The standard error of the estimated mean correction is:
 
-$$
+```math
 \mathrm{SE}_{\text{mean}}(m)=s\sqrt{\ell(m)}.
-$$
+```
 
 The first term decreases with more flights. The second term grows as we predict
 farther from the mean training mass. Spreading test masses helps estimate the
@@ -415,9 +415,9 @@ For the offset-only model, $\ell=1/n$.
 Even if the average altitude were known perfectly, the next flight would still
 vary. Include that remaining variation:
 
-$$
+```math
 a(m)=s\sqrt{1+\ell(m)}.
-$$
+```
 
 The extra **1** is essential. It represents a new flight's variation around the
 true mean, in addition to our uncertainty in that mean.
@@ -426,9 +426,9 @@ Under a fixed correct linear model with independent normal errors of constant
 variance, the standardized prediction error follows a Student t distribution
 with $\nu=n-p$ degrees of freedom. The nominal 95% prediction interval is:
 
-$$
+```math
 \boxed{\widehat Y(m)\ \pm\ t_{0.975,\nu}\,a(m)}.
-$$
+```
 
 The t critical value allows for uncertainty in estimating the noise scale.
 It is larger for small samples and approaches 1.96 as degrees of freedom grow.
@@ -437,26 +437,26 @@ the middle 95% between the negative and positive critical values.
 
 In the hand example at 530 g:
 
-$$
+```math
 \ell=\frac16+\frac{10^2}{1600}=0.229167,
 \qquad
 a=\sqrt6\sqrt{1.229167}=2.715695\text{ ft}.
-$$
+```
 
 Since $t_{0.975,4}\approx2.776445$:
 
-$$
+```math
 \text{95\% next-flight interval}
 =800\pm7.539978
 \approx[792.46,\ 807.54]\text{ ft}.
-$$
+```
 
 The corresponding confidence interval for the expected altitude is narrower:
 
-$$
+```math
 800\pm2.776445\sqrt6\sqrt{0.229167}
 =800\pm3.255670\text{ ft}.
-$$
+```
 
 | Question | Interval in the hand example |
 | --- | --- |
@@ -496,10 +496,10 @@ optimistic impression when weather and preparation are unusually similar.
 
 For held-out predictions $\widehat Y_i^{(-d)}$, the mean absolute error is:
 
-$$
+```math
 \mathrm{MAE}
 =\frac1n\sum_i\left|Y_i-\widehat Y_i^{(-d)}\right|.
-$$
+```
 
 The superscript means the prediction was fitted without that flight's date.
 The program averages across flights; dates with more flights have more weight.
@@ -509,10 +509,10 @@ that performance on a new day has not been established.
 In automatic mode, choose the linear correction only when its validation MAE is
 strictly smaller and no more than 90% of the offset model's MAE:
 
-$$
+```math
 \mathrm{MAE}_{\text{linear}}
 \leq0.90\,\mathrm{MAE}_{\text{offset}}.
-$$
+```
 
 The program also requires enough data and estimable validation folds. The 10%
 threshold is a project convention, not a significance test or a 90% confidence level.
@@ -520,9 +520,9 @@ If both models have zero validation error, it retains the offset model.
 
 Compare both against the uncalibrated simulation too:
 
-$$
+```math
 \mathrm{MAE}_{\text{raw}}=\frac1n\sum_i|Y_i-S_i|.
-$$
+```
 
 If calibration does not improve validation MAE over the raw simulation, the tool
 warns that its recommendation is unvalidated. It does not automatically switch
@@ -536,11 +536,11 @@ data and fresh confirmation is needed.
 
 For an otherwise valid 2027 qualification flight, the altitude and duration score is:
 
-$$
+```math
 S_{\text{flight}}
 =|Y-800|
 +4\max(37-\tau,\ 0,\ \tau-40),
-$$
+```
 
 where altitude $Y$ is in feet and total duration $\tau$ is in seconds.
 The qualification altitude is 800 ft, the duration window is 37 to 40 seconds,
@@ -558,9 +558,9 @@ points.
 
 For ballast $b$, the decision objective is:
 
-$$
+```math
 L(b)=\mathbb E\left[|Y_{\text{new}}(b)-H_\star|\right].
-$$
+```
 
 The expectation means averaging the penalty over possible future outcomes,
 weighted by their modeled probabilities.
@@ -588,36 +588,36 @@ scoring. Fitting and deciding are different jobs.
 
 Holding weather and base mass fixed, the local corrected sensitivity is:
 
-$$
+```math
 k=\frac{d\widehat Y}{dm}
 =\frac{dS}{dm}+\widehat\beta_1.
-$$
+```
 
 Estimate the OpenRocket term from nearby simulations under the same conditions:
 
-$$
+```math
 \frac{dS}{dm}\approx\frac{S(m+\Delta m)-S(m)}{\Delta m}.
-$$
+```
 
 A small change intended to move the expected altitude toward the target is:
 
-$$
+```math
 \Delta b\approx\frac{H_\star-\widehat Y}{k}.
-$$
+```
 
 In the hand example, OpenRocket changes from 860 ft at 520 g to 835 ft at 530 g:
 
-$$
+```math
 \frac{dS}{dm}\approx\frac{835-860}{10}=-2.5\text{ ft/g},
 \qquad
 k=-2.5-0.5=-3.0\text{ ft/g}.
-$$
+```
 
 The corrected altitude at 520 g is $860-30=830$ ft. To reach 800 ft:
 
-$$
+```math
 \Delta b\approx\frac{800-830}{-3}=10\text{ g}.
-$$
+```
 
 Adding 10 g gives the 530 g candidate already calculated.
 Using only the correction slope of -0.5 ft/g would give the wrong answer.
@@ -669,10 +669,10 @@ Choose a mass spacing that produces altitude differences larger than the
 preliminary scatter. If each of two settings has $q$ independent repeats and
 the same noise standard deviation $\sigma$, then:
 
-$$
+```math
 \mathrm{SE}(\text{difference between two means})
 =\sigma\sqrt{\frac2q}.
-$$
+```
 
 For three repeats at each setting, this is about $0.816\sigma$.
 A tiny mass effect can be difficult to distinguish from that uncertainty.
@@ -690,9 +690,9 @@ Separate two goals:
 
 For independent repeats at one fixed setting, a confidence interval for the mean is:
 
-$$
+```math
 \overline Y\pm t_{0.975,n-1}\frac{s}{\sqrt n}.
-$$
+```
 
 This is a standard [t confidence interval for a mean](https://www.itl.nist.gov/div898/handbook/eda/section3/eda352.htm).
 
@@ -700,9 +700,9 @@ As a planning illustration, suppose the standard deviation is estimated to be
 15 ft and we want a mean-altitude interval with half-width no more than 10 ft.
 Holding that estimate fixed, try values of $n$ in:
 
-$$
+```math
 t_{0.975,n-1}\frac{15}{\sqrt n}\leq10.
-$$
+```
 
 | Repeats at this fixed setting | Approximate mean-interval half-width |
 | --- | ---: |
@@ -717,9 +717,9 @@ It also does not replace regression-based planning across several masses and day
 
 At $n=12$, the next-flight half-width at this same setting would be approximately:
 
-$$
+```math
 t_{0.975,11}\,15\sqrt{1+\frac1{12}}\approx34.36\text{ ft}.
-$$
+```
 
 Knowing the mean within about 10 ft does not mean the next flight will be within
 10 ft. Even with a very large dataset, genuine variation remains. If that
@@ -778,13 +778,13 @@ has adequate rail-departure speed, or meets all competition requirements.
 
 A numerical correction does not identify a physical cause:
 
-$$
+```math
 \text{too much drag},\quad
 \text{less motor impulse},\quad
 \text{a tilted trajectory}
 \quad\Longrightarrow\quad
 \text{a lower apogee can result}.
-$$
+```
 
 One scalar apogee observation cannot generally distinguish all these mechanisms.
 Altitude-versus-time data and additional measurements would help.
@@ -827,9 +827,9 @@ Expected rounded results are:
 
 For example:
 
-$$
+```math
 832.5-30.1667-0.4(530-520)=798.3333\text{ ft}.
-$$
+```
 
 These are teaching results, not a recommendation for the real rocket.
 Do not combine the numbers from this twelve-flight dataset with the six-flight
@@ -862,41 +862,41 @@ possible ballast values.
 
 Minimize:
 
-$$
+```math
 Q=\sum_i(r_i-\beta_0-\beta_1x_i)^2,
 \qquad
 x_i=m_i-\overline m,
 \qquad
 \sum_i x_i=0.
-$$
+```
 
 Set the derivative with respect to the intercept to zero:
 
-$$
+```math
 \frac{\partial Q}{\partial\beta_0}
 =-2\sum_i(r_i-\beta_0-\beta_1x_i)=0.
-$$
+```
 
 Therefore $n\beta_0=\sum_i r_i$, so $\widehat\beta_0=\overline r$.
 For the slope:
 
-$$
+```math
 \frac{\partial Q}{\partial\beta_1}
 =-2\sum_i x_i(r_i-\beta_0-\beta_1x_i)=0.
-$$
+```
 
 Substitute the fitted intercept and rearrange:
 
-$$
+```math
 \widehat\beta_1\sum_i x_i^2
 =\sum_i x_i(r_i-\overline r).
-$$
+```
 
 Dividing by $\sum_i x_i^2>0$ gives the slope formula in section 6.
 
 In matrix notation:
 
-$$
+```math
 \mathbf r=X\boldsymbol\beta+\boldsymbol\epsilon,
 \qquad
 X=
@@ -906,13 +906,13 @@ X=
 \vdots&\vdots\\
 1&m_n-\overline m
 \end{bmatrix}.
-$$
+```
 
 For full-rank $X$, the least-squares solution satisfies:
 
-$$
+```math
 \widehat{\boldsymbol\beta}=(X^\mathsf T X)^{-1}X^\mathsf T\mathbf r.
-$$
+```
 
 This is a mathematical expression for the solution. The program estimates the
 coefficients using a numerical least-squares solver rather than explicitly
@@ -920,13 +920,13 @@ inverting this matrix for the fit.
 
 For a new design vector $\mathbf x=[1,\ m-\overline m]^\mathsf T$:
 
-$$
+```math
 \ell=\mathbf x^\mathsf T(X^\mathsf T X)^{-1}\mathbf x.
-$$
+```
 
 Centering makes the off-diagonal terms of $X^\mathsf T X$ zero:
 
-$$
+```math
 X^\mathsf T X=
 \begin{bmatrix}
 n&0\\
@@ -934,7 +934,7 @@ n&0\\
 \end{bmatrix},
 \qquad
 \ell=\frac1n+\frac{(m-\overline m)^2}{S_{xx}}.
-$$
+```
 
 The offset model uses a single column of ones and $\mathbf x=[1]$,
 so its leverage is simply $1/n$.
@@ -943,59 +943,59 @@ so its leverage is simply $1/n$.
 
 For decision ranking, the program uses the working predictive distribution:
 
-$$
+```math
 Y=\mu+aZ,
 \qquad
 Z\sim t_\nu,
-$$
+```
 
 where $\mu$ is corrected predicted altitude, $a$ is predictive scale,
 and $\nu$ is residual degrees of freedom.
 
 Let:
 
-$$
+```math
 d=\mu-H_\star,
 \qquad
 z=\frac d a.
-$$
+```
 
 Write $f_\nu$ for the standard t probability density and $F_\nu$ for its
 cumulative distribution function. For $a>0$ and $\nu>1$:
 
-$$
+```math
 \boxed{
 \mathbb E|Y-H_\star|
 =d\left[2F_\nu(z)-1\right]
 +2a\frac{\nu+z^2}{\nu-1}f_\nu(z)
 }.
-$$
+```
 
 To see where it comes from, split the integral for $|d+au|$ at $u=-d/a$,
 where the expression inside the absolute value changes sign.
 Use symmetry of the t distribution and the identity:
 
-$$
+```math
 \int_z^\infty u f_\nu(u)\,du
 =\frac{\nu+z^2}{\nu-1}f_\nu(z).
-$$
+```
 
 The first term reflects displacement from the target. The second reflects
 uncertainty. Their combination is nonnegative even if $d<0$.
 
 When $\mu=H_\star$, the first term vanishes:
 
-$$
+```math
 \mathbb E|Y-H_\star|
 =2a\frac{\nu}{\nu-1}f_\nu(0).
-$$
+```
 
 In our hand example, $\nu=4$ and $f_4(0)=3/8$, so:
 
-$$
+```math
 \mathbb E|Y-800|
 =2a\frac43\frac38=a=2.715695\text{ points}.
-$$
+```
 
 If the fitted scale is zero, the code returns $|\mu-H_\star|$ and separately
 warns that near-zero residual variation does not establish real repeatability.
