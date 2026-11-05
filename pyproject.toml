@@ -1,0 +1,16 @@
+[project]
+name = "model-rocket-optimization"
+version = "0.1.0"
+description = "Calibrate OpenRocket apogee predictions using measured flights."
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26,<3", "scipy>=1.12,<2"]
+
+[project.scripts]
+rocket-calibrate = "rocket_calibration:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["rocket_calibration"]

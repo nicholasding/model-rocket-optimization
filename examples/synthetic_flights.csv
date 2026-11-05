@@ -1,0 +1,13 @@
+flight_id,launch_date,configuration,motor,launch_mass_g,ballast_g,wind_speed_m_s,temperature_c,station_pressure_hpa,simulated_apogee_ft,measured_apogee_ft,duration_s
+S01,2026-10-01,synthetic-rocket,synthetic-motor,500,0,1,18,1005,900,877,38.5
+S02,2026-10-01,synthetic-rocket,synthetic-motor,520,20,1,18,1005,860,831,38.1
+S03,2026-10-01,synthetic-rocket,synthetic-motor,540,40,1,18,1005,815,776,37.7
+S04,2026-10-08,synthetic-rocket,synthetic-motor,540,40,3,22,1015,805,764,37.4
+S05,2026-10-08,synthetic-rocket,synthetic-motor,500,0,3,22,1015,890,865,38.2
+S06,2026-10-08,synthetic-rocket,synthetic-motor,520,20,3,22,1015,850,817,37.9
+S07,2026-10-15,synthetic-rocket,synthetic-motor,520,20,2,20,1010,855,825,38.0
+S08,2026-10-15,synthetic-rocket,synthetic-motor,540,40,2,20,1010,810,773,37.6
+S09,2026-10-15,synthetic-rocket,synthetic-motor,500,0,2,20,1010,895,874,38.4
+S10,2026-10-22,synthetic-rocket,synthetic-motor,500,0,2,20,1010,895,876,38.6
+S11,2026-10-22,synthetic-rocket,synthetic-motor,540,40,2,20,1010,810,775,37.8
+S12,2026-10-22,synthetic-rocket,synthetic-motor,520,20,2,20,1010,855,825,38.2

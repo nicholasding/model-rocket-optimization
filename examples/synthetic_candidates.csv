@@ -1,0 +1,6 @@
+candidate_id,configuration,motor,launch_mass_g,ballast_g,wind_speed_m_s,temperature_c,station_pressure_hpa,simulated_apogee_ft
+C00,synthetic-rocket,synthetic-motor,500,0,2,20,1010,895
+C10,synthetic-rocket,synthetic-motor,510,10,2,20,1010,875
+C20,synthetic-rocket,synthetic-motor,520,20,2,20,1010,855
+C30,synthetic-rocket,synthetic-motor,530,30,2,20,1010,832.5
+C40,synthetic-rocket,synthetic-motor,540,40,2,20,1010,810

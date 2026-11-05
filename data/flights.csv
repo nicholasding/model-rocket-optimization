@@ -1,0 +1,1 @@
+flight_id,launch_date,configuration,motor,launch_mass_g,ballast_g,wind_speed_m_s,temperature_c,station_pressure_hpa,simulated_apogee_ft,measured_apogee_ft,duration_s
