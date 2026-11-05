@@ -401,7 +401,7 @@ $$
 The standard error of the estimated mean correction is:
 
 $$
-\operatorname{SE}_{\text{mean}}(m)=s\sqrt{\ell(m)}.
+\mathrm{SE}_{\text{mean}}(m)=s\sqrt{\ell(m)}.
 $$
 
 The first term decreases with more flights. The second term grows as we predict
@@ -446,7 +446,7 @@ $$
 Since $t_{0.975,4}\approx2.776445$:
 
 $$
-\text{95% next-flight interval}
+\text{95\% next-flight interval}
 =800\pm7.539978
 \approx[792.46,\ 807.54]\text{ ft}.
 $$
@@ -497,7 +497,7 @@ optimistic impression when weather and preparation are unusually similar.
 For held-out predictions $\widehat Y_i^{(-d)}$, the mean absolute error is:
 
 $$
-\operatorname{MAE}
+\mathrm{MAE}
 =\frac1n\sum_i\left|Y_i-\widehat Y_i^{(-d)}\right|.
 $$
 
@@ -510,8 +510,8 @@ In automatic mode, choose the linear correction only when its validation MAE is
 strictly smaller and no more than 90% of the offset model's MAE:
 
 $$
-\operatorname{MAE}_{\text{linear}}
-\leq0.90\,\operatorname{MAE}_{\text{offset}}.
+\mathrm{MAE}_{\text{linear}}
+\leq0.90\,\mathrm{MAE}_{\text{offset}}.
 $$
 
 The program also requires enough data and estimable validation folds. The 10%
@@ -521,7 +521,7 @@ If both models have zero validation error, it retains the offset model.
 Compare both against the uncalibrated simulation too:
 
 $$
-\operatorname{MAE}_{\text{raw}}=\frac1n\sum_i|Y_i-S_i|.
+\mathrm{MAE}_{\text{raw}}=\frac1n\sum_i|Y_i-S_i|.
 $$
 
 If calibration does not improve validation MAE over the raw simulation, the tool
@@ -670,7 +670,7 @@ preliminary scatter. If each of two settings has $q$ independent repeats and
 the same noise standard deviation $\sigma$, then:
 
 $$
-\operatorname{SE}(\text{difference between two means})
+\mathrm{SE}(\text{difference between two means})
 =\sigma\sqrt{\frac2q}.
 $$
 
